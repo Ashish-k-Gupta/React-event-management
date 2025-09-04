@@ -19,8 +19,8 @@ function Login() {
         e.preventDefault();
         try {
             const data = await loginService(userEmail, password);
-            if (data?.token) {
-                login(data.token);
+            if (data?.user && data?.token) {
+                login(data.user, data.token);
                 navigate("/")
             }
         } catch (error) {

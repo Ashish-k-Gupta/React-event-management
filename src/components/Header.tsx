@@ -1,112 +1,108 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Link } from "@tanstack/react-router"; // import Link from TanStack Router
+import { Link } from "@tanstack/react-router";
 import { logout } from "../service/authService";
+import { useAuth } from "../context/authContext";
+import Profile from "./Profile";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
+    const { isAuthenticated } = useAuth();
 
     return (
-        <header className="w-full bg-gray-900 text-white p-4">
-            <nav className="flex justify-between items-center">
-                {/* Logo / Title */}
-                <h1 className="text-xl font-bold">MyApp</h1>
+        <header className="w-full bg-gray-800 text-white shadow-md">
+            {/* AppBar */}
+            <nav className="flex justify-between items-center px-6 py-3">
+                {/* Logo */}
+                <h1 className="text-2xl font-semibold tracking-wide">MyApp</h1>
 
                 {/* Desktop Menu */}
-                <ul className="hidden md:flex gap-6 list-none items-center">
-                    <li>
-                        <Link to="/" className="hover:text-orange-400 transition duration-300">
-                            Home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/events" className="hover:text-orange-400 transition duration-300">
-                            Events
-                        </Link>
-                    </li>
-                    {/* <li>
-                        <Link to="/categories" className="hover:text-orange-400 transition duration-300">
-                            Categories
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/contact" className="hover:text-orange-400 transition duration-300">
-                            Contact
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/myevents" className="hover:text-orange-400 transition duration-300">
-                            My Events
-                        </Link>
-                    </li> */}
-                    <li
-                        onClick={logout}
-                        className="cursor-pointer hover:text-orange-400 transition duration-300"
+                <div className="hidden md:flex items-center gap-6">
+                    <Link
+                        to="/"
+                        className="text-sm font-medium hover:text-orange-400 transition-colors"
                     >
-                        Logout
-                    </li>
-                    <li>
+                        Home
+                    </Link>
+                    <Link
+                        to="/events"
+                        className="text-sm font-medium hover:text-orange-400 transition-colors"
+                    >
+                        Events
+                    </Link>
+
+                    {isAuthenticated ? (
+                        <Profile />
+                    ) : (
                         <Link
                             to="/signup"
-                            className="ml-4 bg-orange-500 px-4 py-2 rounded-lg hover:bg-orange-600 transition duration-300"
+                            className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                         >
                             Sign Up
                         </Link>
-                    </li>
-                </ul>
+                    )}
+                </div>
 
                 {/* Mobile Menu Button */}
                 <button
-                    className="block md:hidden"
+                    className="md:hidden flex items-center"
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {isOpen ? <X size={28} /> : <Menu size={28} />}
                 </button>
             </nav>
 
-            {/* Mobile Dropdown Menu */}
+            {/* Mobile Drawer */}
             {isOpen && (
-                <ul className="flex flex-col gap-4 mt-4 md:hidden">
-                    <li>
-                        <Link to="/" className="hover:text-orange-400 transition duration-300">
-                            Home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/events" className="hover:text-orange-400 transition duration-300">
-                            Events
-                        </Link>
-                    </li>
-                    {/* <li>
-                        <Link to="/categories" className="hover:text-orange-400 transition duration-300">
-                            Categories
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/contact" className="hover:text-orange-400 transition duration-300">
-                            Contact
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/myevents" className="hover:text-orange-400 transition duration-300">
-                            My Events
-                        </Link>
-                    </li> */}
-                    <li
-                        onClick={logout}
-                        className="cursor-pointer hover:text-orange-400 transition duration-300"
-                    >
-                        Logout
-                    </li>
-                    <li>
-                        <Link
-                            to="/signup"
-                            className="bg-orange-500 px-4 py-2 rounded-lg hover:bg-orange-600 transition duration-300 text-center"
-                        >
-                            Sign Up
-                        </Link>
-                    </li>
-                </ul>
+                <div className="md:hidden bg-gray-700 shadow-md rounded-b-lg">
+                    <ul className="flex flex-col py-4 px-6 gap-4">
+                        <li>
+                            <Link
+                                to="/"
+                                className="block text-sm font-medium hover:text-orange-400 transition-colors"
+                            >
+                                Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/events"
+                                className="block text-sm font-medium hover:text-orange-400 transition-colors"
+                            >
+                                Events
+                            </Link>
+                        </li>
+                        {isAuthenticated ? (
+                            <>
+                                <li
+                                    onClick={logout}
+                                    className="cursor-pointer text-sm font-medium hover:text-orange-400 transition-colors"
+                                >
+                                    Logout
+                                </li>
+                            </>
+                        ) : (
+                            <>
+                                <li>
+                                    <Link
+                                        to="/login"
+                                        className="block bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg text-sm font-medium text-center transition-colors"
+                                    >
+                                        Login
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/signup"
+                                        className="block border border-orange-500 hover:bg-orange-500 hover:text-white px-4 py-2 rounded-lg text-sm font-medium text-center transition-colors"
+                                    >
+                                        Sign Up
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+                    </ul>
+                </div>
             )}
         </header>
     );

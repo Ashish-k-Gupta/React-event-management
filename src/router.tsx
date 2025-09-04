@@ -33,8 +33,6 @@ const appLayoutRoute = createRoute({
     id: "app-layout",
     component: () => (
         <div>
-            <Header />
-            <App />
             <Outlet />
         </div>
     )
@@ -45,6 +43,7 @@ const authLayoutRoute = createRoute({
     id: "auth-layout",
     component: () => (
         <div>
+            <Header />
             <Outlet />
         </div>
     )
@@ -70,7 +69,13 @@ const protectedRoute = createRoute({
 const homeRoute = createRoute({
     getParentRoute: () => appLayoutRoute,
     path: "/",
-    component: () => <div>Welcome Home!</div>,
+    component: () => (
+        <div>
+            <Header />
+            <App />
+
+        </div>
+    )
 })
 
 const signupRoute = createRoute({
