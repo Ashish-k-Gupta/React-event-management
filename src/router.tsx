@@ -11,6 +11,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Header from "./components/Header";
 import App from "./App";
+import RandomImageGallery from "./components/RandomImageGallery";
 
 // Define the auth context type
 export interface AuthContext {
@@ -33,7 +34,10 @@ const appLayoutRoute = createRoute({
     id: "app-layout",
     component: () => (
         <div>
+            <Header />
             <Outlet />
+            <RandomImageGallery />
+
         </div>
     )
 })
@@ -43,7 +47,6 @@ const authLayoutRoute = createRoute({
     id: "auth-layout",
     component: () => (
         <div>
-            <Header />
             <Outlet />
         </div>
     )
@@ -71,9 +74,7 @@ const homeRoute = createRoute({
     path: "/",
     component: () => (
         <div>
-            <Header />
             <App />
-
         </div>
     )
 })

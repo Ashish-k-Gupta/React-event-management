@@ -3,7 +3,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { register } from "../service/authService";
 import { useAuth } from "../context/authContext";
 import { useError } from "../hooks/useError";
+import { useNavigate } from "@tanstack/react-router";
 function Signup() {
+    const navigate = useNavigate()
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -20,8 +22,9 @@ function Signup() {
         try {
             const data = await register(firstName, lastName, email, password, role);
             if (data.token) {
+                login(data.user, data.token);
                 localStorage.setItem("token", data.token)
-                login(data.user);
+                navigate({ to: "/" })
             }
         } catch (err) {
             catchError(err, "Sigup failed")

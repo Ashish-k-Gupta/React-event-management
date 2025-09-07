@@ -33,7 +33,12 @@ function EventDetail() {
         <div className="p-8 max-w-3xl mx-auto bg-gradient-to-br from-orange-50 to-blue-50 shadow-xl rounded-2xl space-y-6">
             {/* Title & Status */}
             <div className="flex flex-col gap-2">
-                <h1 className="text-4xl font-extrabold text-gray-900">{event.title}</h1>
+                <h1 className="text-3xl font-extrabold text-gray-900">{event.title}</h1>
+                <img
+                    src="https://picsum.photos/seed/art/600/300" // Replace with your image URL
+                    alt={event.title}
+                    className="w-full h-60 object-cover rounded-lg mb-4"
+                />
                 <div className="flex items-center gap-2 flex-wrap">
                     {event.categories.map((cat: string) => (
                         <span
@@ -52,6 +57,7 @@ function EventDetail() {
             </div>
 
             {/* Description */}
+            <h4 className="font-bold text-2xl mb-2">About the Event</h4>
             <p className="text-lg text-gray-700 leading-relaxed">{event.description}</p>
 
             {/* Details Section */}
