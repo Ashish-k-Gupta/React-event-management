@@ -19,6 +19,7 @@ function Login() {
         e.preventDefault();
         try {
             const data = await loginService(userEmail, password);
+            console.log("ASHISH", data);
             if (data?.user && data?.token) {
                 login(data.user, data.token);
                 navigate("/")
@@ -57,7 +58,7 @@ function Login() {
                         </button>
                     </div>
                     <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300">
-                        Login
+                        Login Button
                     </button>
                 </form>
 

@@ -12,6 +12,8 @@ import Signup from "./components/Signup";
 import Header from "./components/Header";
 import App from "./App";
 import RandomImageGallery from "./components/RandomImageGallery";
+import { BookTicketDetail } from "./components/bookTicketDetail";
+// import { TicketCard } from "./cards/TicketCard";
 
 // Define the auth context type
 export interface AuthContext {
@@ -35,9 +37,9 @@ const appLayoutRoute = createRoute({
     component: () => (
         <div>
             <Header />
+            <BookTicketDetail />
             <Outlet />
             <RandomImageGallery />
-
         </div>
     )
 })
