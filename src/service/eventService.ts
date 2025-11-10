@@ -21,6 +21,24 @@ export function getEventById(eventId: number) {
     })
 }
 
+export const getSlotsByEventId = async (eventId: number) => {
+    try {
+        const res = await apiFetch(`/events/event-slots/${eventId}`, { method: 'GET' });
+        return res;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getSlotDetialById = async (slotId: number) => {
+    try {
+        const res = await apiFetch(`/events/buy-page/${slotId}`);
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export function createEvent(title: string, description: string, language: string, ticketPrice: number, startDate: Date, endDate: Date, categories: number[]) {
     return apiFetch(`/events`, {
         method: 'POST',

@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { getEventById } from "../service/eventService";
-import { useParams } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import { eventDetailRoute } from "../router";
 import { Tag, User, Languages, MapPinned } from "lucide-react";
 import { TicketCard } from "../cards/TicketCard";
 
 function EventDetail() {
     const { eventId } = useParams({ from: eventDetailRoute.id });
+    const navigate = useNavigate();
 
+    const handleBookTicket = () => {
+        navigate({ to: `/events/${eventId}/buy-page/shows` })
+    }
     const { isPending, error, data: event } = useQuery({
         queryKey: ["eventDetail", eventId],
         queryFn: () => getEventById(parseInt(eventId)),
@@ -16,17 +20,6 @@ function EventDetail() {
 
     if (isPending) return <p className="text-center text-gray-500">Loading...</p>;
     if (error instanceof Error) return <p className="text-red-500">{error.message}</p>;
-
-    const bookedSeats = event.totalSeats - event.availableSeats;
-    const seatPercentage = Math.round((bookedSeats / event.totalSeats) * 100);
-
-    const handleBookTicket = () => {
-        if (event.availableSeats <= 0 || event.isCancelled) {
-            alert("Sorry, booking is not available.");
-            return;
-        }
-        alert(`Ticket booked for "${event.title}" 🎉`);
-    };
 
     return (
         <div className="p-8 max-w-7xl mx-auto bg-white shadow-xl rounded-2xl space-y-6">
@@ -77,23 +70,6 @@ function EventDetail() {
                     </div>
                 </div>
             </div>
-
-            {/* Seats Availability */}
-            {/* <div className="bg-white p-6 rounded-xl shadow-md">
-                <div className="flex justify-between mb-2">
-                    <span className="text-gray-700 font-medium">Seats Booked</span>
-                    <span className="text-gray-500 text-sm">
-                        {bookedSeats}/{event.totalSeats}
-                    </span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                    <div
-                        className="bg-blue-500 h-3 rounded-full transition-all"
-                        style={{ width: `${seatPercentage}%` }}
-                    ></div>
-                </div>
-                <p className="text-sm text-gray-500 mt-2">{event.availableSeats}seats left</p>
-            </div> */}
 
             {/* Host */}
             {event.user && (
