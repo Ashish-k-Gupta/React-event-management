@@ -11,9 +11,9 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Header from "./components/Header";
 import App from "./App";
-import RandomImageGallery from "./components/RandomImageGallery";
+// import RandomImageGallery from "./components/RandomImageGallery";
 import { BookTicketDetail } from "./components/bookTicketDetail";
-import { showSlotDetails } from "./components/showSlotDetails";
+import { ShowSlotDetails } from "./components/showSlotDetails";
 // import { TicketCard } from "./cards/TicketCard";
 
 // Define the auth context type
@@ -107,19 +107,20 @@ export const eventDetailRoute = createRoute({
 
 export const bookTicketRoute = createRoute({
     getParentRoute: () => protectedRoute,
-    path: '/events/$eventId/buy-page/shows',
+    path: '/events/$eventId/buy-page',
     component: BookTicketDetail
 })
 
-export const showTicketDetailsRoute = createRoute({
+export const showSlotDetailsRoute = createRoute({
     getParentRoute: () => protectedRoute,
-    path: "/events/buy-page/$slotId/shows",
-    component: showSlotDetails
+    path: '/events/$eventId/buy-page/$slotId',
+    component: ShowSlotDetails
 })
+
 const routeTree = rootRoute.addChildren([
     appLayoutRoute.addChildren([
         homeRoute,
-        protectedRoute.addChildren([eventsRoute, eventDetailRoute, bookTicketRoute])
+        protectedRoute.addChildren([eventsRoute, eventDetailRoute, bookTicketRoute, showSlotDetailsRoute])
     ]),
     authLayoutRoute.addChildren([loginRoute, signupRoute]),
 ])

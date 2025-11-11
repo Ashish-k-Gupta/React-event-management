@@ -1,23 +1,22 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { bookTicketRoute, showTicketDetailsRoute } from "../router";
+import { bookTicketRoute, showSlotDetailsRoute } from "../router";
 import { useQuery } from "@tanstack/react-query";
-import { getSlotDetialById, getSlotsByEventId } from "../service/eventService";
+import { getSlotById, getSlotsByEventId } from "../service/eventService";
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
-import { showSlotDetails } from "./showSlotDetails";
 
 
 export function BookTicketDetail() {
 
     const { eventId } = useParams({ from: bookTicketRoute.id });
-    const { slotId: slotIdParam } = useParams({ from: showSlotDetails.id });
+    const { slotId } = useParams({ from: showSlotDetailsRoute.id });
 
     const [totalTickets, setTotalTickets] = useState(0);
     const navigate = useNavigate();
 
 
     const handleBookTicket = () => {
-        navigate({ to: `/events/buy-page/${slotIdParam}/shows` })
+        navigate({ to: `/events/${eventId}/buy-page` })
     }
 
     const { data: slots, isPending } = useQuery({
@@ -27,9 +26,9 @@ export function BookTicketDetail() {
     })
 
     const { data: slotDetails, isPending: isSlotLoading } = useQuery({
-        queryKey: ["slotDetails", slotIdParam],
-        queryFn: () => getSlotDetialById(Number(slotIdParam)),
-        enabled: !!slotIdParam
+        queryKey: ["slotDetails", slotId],
+        queryFn: () => getSlotById(Number(slotId)),
+        enabled: !!slotId
     })
 
     if (isSlotLoading) return <p>Loading...</p>

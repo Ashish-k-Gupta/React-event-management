@@ -30,9 +30,10 @@ export const getSlotsByEventId = async (eventId: number) => {
     }
 }
 
-export const getSlotDetialById = async (slotId: number) => {
+export const getSlotById = async (slotId: number) => {
     try {
         const res = await apiFetch(`/events/buy-page/${slotId}`);
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>HERE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
         return res.data;
     } catch (error) {
         throw error;

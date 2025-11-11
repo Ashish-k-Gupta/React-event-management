@@ -1,8 +1,7 @@
-export function showSlotDetails(id: number) {
+export function ShowSlotDetails() {
     return (
         <>
             <div>Hello, sweetheart</div>
-            <p>{id}</p>
         </>
     )
 }
