@@ -1,23 +1,16 @@
-import { useNavigate, useParams } from "@tanstack/react-router";
-import { bookTicketRoute, showSlotDetailsRoute } from "../router";
+import { useParams } from "@tanstack/react-router";
+import { bookTicketRoute } from "../router";
 import { useQuery } from "@tanstack/react-query";
-import { getSlotById, getSlotsByEventId } from "../service/eventService";
-import { useState } from "react";
-import { Plus, Minus } from "lucide-react";
+import { getSlotsByEventId } from "../service/eventService";
 
 
 export function BookTicketDetail() {
 
     const { eventId } = useParams({ from: bookTicketRoute.id });
-    const { slotId } = useParams({ from: showSlotDetailsRoute.id });
-
-    const [totalTickets, setTotalTickets] = useState(0);
-    const navigate = useNavigate();
 
 
-    const handleBookTicket = () => {
-        navigate({ to: `/events/${eventId}/buy-page` })
-    }
+
+
 
     const { data: slots, isPending } = useQuery({
         queryKey: ["eventSlots", eventId],
@@ -25,13 +18,8 @@ export function BookTicketDetail() {
         enabled: !!eventId
     })
 
-    const { data: slotDetails, isPending: isSlotLoading } = useQuery({
-        queryKey: ["slotDetails", slotId],
-        queryFn: () => getSlotById(Number(slotId)),
-        enabled: !!slotId
-    })
 
-    if (isSlotLoading) return <p>Loading...</p>
+
     if (isPending) return <p>Loading...</p>;
 
 
@@ -50,17 +38,10 @@ export function BookTicketDetail() {
         return `${startTime} to ${endTime}`;
     };
 
-    const addTicket = () => {
-        setTotalTickets(totalTickets + 1);
-    }
-
-    const minusTicket = () => {
-        setTotalTickets(totalTickets - 1);
-    }
 
     return (
         <>
-            <div className="font-bold text-xl flex item-center justify-center py-10">
+            <div className="font-bold text-xl flex items-center justify-center py-10">
                 <h3>SELECT DATE & TIME</h3>
             </div>
             <div className="bg-[#F9F9FA] flex flex-col pt-[1%] items-center h-screen" >
@@ -74,7 +55,7 @@ export function BookTicketDetail() {
 
 
                     return (
-                        < div className="flex flex-row items-center justify-between w-2/9 border border-gray-300 rounded-xl my-3 " >
+                        <div className="flex flex-row items-center justify-between w-2/8 border border-gray-300 rounded-xl my-3" key={slot.id}>
 
                             <div className="flex flex-row">
 
@@ -87,24 +68,14 @@ export function BookTicketDetail() {
                                     <span>{timeRange}</span>
                                 </div>
                             </div>
-                            {
-                                totalTickets <= 0 ?
-                                    <div className="font-semibold bg-gray-200 p-5 pt-1 pb-1 rounded-md flex flex-col items-center justify-center w-fit m-5">
-                                        <button onClick={handleBookTicket}>{totalTickets <= 0 ? "BOOK" : totalTickets}</button>
-                                    </div>
-                                    :
-                                    // <div className="font-semibold bg-gray-200 p-1 w-[20%] rounded-md flex flex-row items-center justify-around">
-                                    <div className="font-semibold bg-gray-200 pt-1 pb-1 rounded-md flex flex-row items-center justify-around w-20 m-5">
-                                        <Minus size={18} onClick={minusTicket} />
-                                        <button>{totalTickets}</button>
-                                        <Plus size={18} onClick={addTicket} />
-                                    </div>
-                            }
+                            <div className="font-semibold bg-gray-200 p-5 pt-1 pb-1 rounded-md flex flex-col items-center justify-center w-fit m-5">
+                                <button>BOOK</button>
+                            </div>
                         </div>
 
-                    )
+                    );
                 })}
-            </div >
+            </div>
         </>
-    )
+    );
 }

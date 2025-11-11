@@ -10,7 +10,7 @@ function EventDetail() {
     const navigate = useNavigate();
 
     const handleBookTicket = () => {
-        navigate({ to: `/events/${eventId}/buy-page/shows` })
+        navigate({ to: `/events/${eventId}/buy-page` })
     }
     const { isPending, error, data: event } = useQuery({
         queryKey: ["eventDetail", eventId],
