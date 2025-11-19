@@ -1,24 +1,24 @@
-import { useParams } from "@tanstack/react-router";
-import { bookTicketRoute } from "../router";
+import { useNavigate, useParams } from "@tanstack/react-router";
+import { bookTicketRoute, showSlotDetailsRoute } from "../router";
 import { useQuery } from "@tanstack/react-query";
 import { getSlotsByEventId } from "../service/eventService";
 
 
 export function BookTicketDetail() {
 
+
     const { eventId } = useParams({ from: bookTicketRoute.id });
+    const navigate = useNavigate();
+    const handleSlotTicket = (slotId: string) => {
+        navigate({ to: showSlotDetailsRoute.to, params: {  eventId, slotId } })
+    }
 
 
-
-
-
-    const { data: slots, isPending } = useQuery({
+    const { data: res, isPending } = useQuery({
         queryKey: ["eventSlots", eventId],
         queryFn: () => getSlotsByEventId(Number(eventId)),
         enabled: !!eventId
     })
-
-
 
     if (isPending) return <p>Loading...</p>;
 
@@ -48,12 +48,10 @@ export function BookTicketDetail() {
 
                 {/* Available Dates */}
 
-                {slots?.map((slot: any) => {
+                {res?.slots?.map((slot: any) => {
 
                     const { month, day } = formatDate(slot.start_date);
                     const timeRange = formatTime(slot.start_date, slot.end_date);
-
-
                     return (
                         <div className="flex flex-row items-center justify-between w-2/8 border border-gray-300 rounded-xl my-3" key={slot.id}>
 
@@ -69,10 +67,9 @@ export function BookTicketDetail() {
                                 </div>
                             </div>
                             <div className="font-semibold bg-gray-200 p-5 pt-1 pb-1 rounded-md flex flex-col items-center justify-center w-fit m-5">
-                                <button>BOOK</button>
+                                <button onClick={() =>handleSlotTicket(slot.id)}>BOOK</button>
                             </div>
                         </div>
-
                     );
                 })}
             </div>

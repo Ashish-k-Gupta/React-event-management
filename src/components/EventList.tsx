@@ -11,7 +11,6 @@ function EventList() {
 
     if (isPending) return <p>Loading...</p>;
     if (error instanceof Error) return <p>{error.message} </p>;
-    console.log(data);
 
     return (
         <div className="min-h-screen bg-gray-900 p-6">

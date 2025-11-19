@@ -38,8 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 setIsAuthenticated(true);
                 setUser(parsedUser);
             } catch (e) {
-                console.error("Failed to parse user data from localStorage", e);
-                logout(); // Clear invalid data
+                logout(); 
             }
         }
     }, []);

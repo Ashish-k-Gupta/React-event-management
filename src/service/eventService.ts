@@ -6,10 +6,8 @@ import type { Event } from "../types/event";
 export const getEvents = async (): Promise<Event[]> => {
     try {
         const res = await apiFetch("/events/quick-list", { method: 'GET' });
-        console.log(res);
         return res;
     } catch (error) {
-        console.error("Failed to fetch events", error);
         return [];
     }
 };

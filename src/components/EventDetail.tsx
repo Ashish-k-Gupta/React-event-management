@@ -18,6 +18,7 @@ function EventDetail() {
         enabled: !!eventId,
     });
 
+
     if (isPending) return <p className="text-center text-gray-500">Loading...</p>;
     if (error instanceof Error) return <p className="text-red-500">{error.message}</p>;
 

@@ -19,7 +19,6 @@ function Login() {
         e.preventDefault();
         try {
             const data = await loginService(userEmail, password);
-            console.log("ASHISH", data);
             if (data?.user && data?.token) {
                 login(data.user, data.token);
                 navigate("/")

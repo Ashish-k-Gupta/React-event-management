@@ -1,7 +1,7 @@
 export function ShowSlotDetails() {
     return (
         <>
-            <div>Hello, sweetheart</div>
+            <div className=""><h1>Hello, world</h1></div>
         </>
     )
 }
