@@ -8,8 +8,6 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...options.headers,
     }
-    const url = `${API_URL}${endpoint}`
-    console.log(`Fetching from: ${url}`);
 
     const response = await fetch(`${API_URL}${endpoint}`, {
         ...options,

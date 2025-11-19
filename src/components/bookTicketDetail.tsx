@@ -10,7 +10,11 @@ export function BookTicketDetail() {
     const { eventId } = useParams({ from: bookTicketRoute.id });
     const navigate = useNavigate();
     const handleSlotTicket = (slotId: string) => {
-        navigate({ to: showSlotDetailsRoute.to, params: {  eventId, slotId } })
+        navigate({ 
+            to: showSlotDetailsRoute.to,
+            params: {  eventId, slotId },
+        })
+
     }
 
 
@@ -46,23 +50,21 @@ export function BookTicketDetail() {
             </div>
             <div className="bg-[#F9F9FA] flex flex-col pt-[1%] items-center h-screen" >
 
-                {/* Available Dates */}
-
                 {res?.slots?.map((slot: any) => {
 
                     const { month, day } = formatDate(slot.start_date);
                     const timeRange = formatTime(slot.start_date, slot.end_date);
                     return (
-                        <div className="flex flex-row items-center justify-between w-2/8 border border-gray-300 rounded-xl my-3" key={slot.id}>
+                        <div className="flex flex-row items-center justify-between w-3/9 border border-gray-300 rounded-xl my-3" key={slot.id}>
 
-                            <div className="flex flex-row">
+                            <div className="flex flex-row items-center">
 
-                                <div className="flex flex-col w-fit py-0 px-5 items-center justify-center rounded-xl leading-tight">
+                                <div className="flex flex-col w-fit py-0 pl-5 mr-3 items-center justify-center rounded-xl leading-tight">
                                     <span className="font-medium">{day}</span>
                                     <span className="font-semibold">{month}</span>
                                 </div>
-                                <div className="border-1 mt-1 border-gray-300 h-14 flex items-center justify-center"></div>
-                                <div className="font-semibold flex flex-col m-5">
+                                <div className="border-1 border-gray-500 h-9"></div>
+                                <div className="font-semibold flex flex-col m-3">
                                     <span>{timeRange}</span>
                                 </div>
                             </div>

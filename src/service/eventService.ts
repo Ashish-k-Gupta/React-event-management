@@ -21,18 +21,17 @@ export function getEventById(eventId: number) {
 
 export const getSlotsByEventId = async (eventId: number) => {
     try {
-        const res = await apiFetch(`/events/event-slots/${eventId}`, { method: 'GET' });
+        const res = await apiFetch(`/events/event-slots/${eventId}`);
         return res;
     } catch (error) {
         throw error;
     }
 }
 
-export const getSlotById = async (slotId: number) => {
+export const getSlotById = async (slotId: string) => {
     try {
-        const res = await apiFetch(`/events/buy-page/${slotId}`);
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>HERE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
-        return res.data;
+        const res = await apiFetch(`/events/event-slot/${slotId}`);
+        return res;
     } catch (error) {
         throw error;
     }
