@@ -3,15 +3,24 @@ import { useState } from "react"
 import { showSlotDetailsRoute } from "../router";
 import { useQuery } from "@tanstack/react-query";
 import { getSlotById } from "../service/eventService";
+import {  Minus, Plus } from "lucide-react";
 
 export function ShowSlotDetails() {
     const {slotId} = useParams({from: showSlotDetailsRoute.id})
-
+    const [ticketCount, setTicketCount] = useState(0);
     const {data, isLoading} = useQuery({
         queryKey: ["slot", slotId],
         queryFn: () => getSlotById(slotId)
     })
-    const [ticketCount, setTicketCount] = useState(0);
+    console.log(data);
+
+    function addTicket()  {
+        setTicketCount(prev => prev + 1)
+    }
+
+    function removeTicket(){
+        setTicketCount(prev => Math.max(0, prev - 1));
+    }
 
     if (isLoading) return <div>Loading...</div>;
     if (!data) return <div>No slot found.</div>;
@@ -24,25 +33,20 @@ export function ShowSlotDetails() {
 
             <div className="content p-4 flex flex-col gap-2">
                 <p>Date: {data.start_date}</p>
-                <p>Time: {data.start_time}</p>
-                <p>Price: ₹{data.price}</p>
+                <p>Price: ₹{data.ticket_price}</p>
+                <div>
 
-                <div className="flex items-center gap-3 mt-4">
-                    <button 
-                        onClick={() => setTicketCount(ticketCount - 1)}
-                        disabled={ticketCount <= 1}
-                    >
-                        -
-                    </button>
-
-                    <span>{ticketCount}</span>
-
-                    <button 
-                        onClick={() => setTicketCount(ticketCount + 1)}
-                    >
-                        +
-                    </button>
-                </div>
+                <button>{ticketCount === 0 ? (
+                    <span onClick={addTicket}>ADD</span>
+                ): (
+                    <div className="bg-black rounded-md flex items-center justify-around w-20">
+                        <Minus color="white" onClick={removeTicket} size={20} ></Minus>
+                        <span className="text-white text-xl">{ticketCount}</span>
+                        <Plus color="white" onClick={addTicket}></Plus>
+                    </div>
+                )
+            }</button>
+            </div>
 
                 <button className="border px-4 py-2 mt-5">
                     Continue to Payment
