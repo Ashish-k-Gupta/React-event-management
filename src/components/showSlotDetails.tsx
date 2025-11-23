@@ -3,55 +3,79 @@ import { useState } from "react"
 import { showSlotDetailsRoute } from "../router";
 import { useQuery } from "@tanstack/react-query";
 import { getSlotById } from "../service/eventService";
-import {  Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 
 export function ShowSlotDetails() {
     const {slotId} = useParams({from: showSlotDetailsRoute.id})
     const [ticketCount, setTicketCount] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
     const {data, isLoading} = useQuery({
         queryKey: ["slot", slotId],
         queryFn: () => getSlotById(slotId)
     })
-    console.log(data);
 
     function addTicket()  {
-        setTicketCount(prev => prev + 1)
+        const newTicketCount = ticketCount + 1;
+        setTicketCount(newTicketCount);
+        calculateTotal(newTicketCount, data.ticket_price);
     }
-
+    
     function removeTicket(){
-        setTicketCount(prev => Math.max(0, prev - 1));
+        if(ticketCount === 0) return;
+        const newTicketCount = ticketCount - 1;
+        setTicketCount(newTicketCount);
+        calculateTotal(newTicketCount, data.ticket_price)
+    }
+    
+    function calculateTotal (numberOfTicket: number, ticketPrice: number){
+        const totalPrice = numberOfTicket * ticketPrice;
+        console.log("PRICE:", ticketPrice,"Ticket-Count:", ticketCount);
+        return setTotalPrice(totalPrice);
     }
 
     if (isLoading) return <div>Loading...</div>;
     if (!data) return <div>No slot found.</div>;
-// I have to write date format function which convert the time that I'm receiving from the backend to norma user readable time and then I have to add a state at application level to track cart. then we have to also track the tickets on the this component level then also the price of ticket while the user is on this page.
     return (
-        <>
-            <div className="header border flex flex-col items-center justify-center h-25">
-                <p className="uppercase text-xl font-semibold ">{data?.event.title || "Slot Details"}</p>
+    <div className="min-h-screen flex flex-col">
+    <div className="header flex flex-col items-center justify-between rounded-md">
+            <div className="flex flex-col justify-between items-center shadow-lg w-full py-5">
+                    <p className="uppercase text-xl font-semibold ">{data?.event.title || "Slot Details"}</p>
+                    <p className="text-gray-500 font-semibold text-md">{data.start_date}</p>
             </div>
 
-            <div className="content p-4 flex flex-col gap-2">
-                <p>Date: {data.start_date}</p>
-                <p>Price: ₹{data.ticket_price}</p>
-                <div>
+            
+            <div className="content p-4 flex flex-row gap-2 items-center justify-between bg-white border border-gray-200 mt-[5%] w-[30%] rounded-xl shadow-sm">
+                <div className="flex flex-col font-semibold justify-center items-start text-[18px]">
+                <p>Price</p>
+                <p>₹{data.ticket_price}</p>
+                </div>
 
-                <button>{ticketCount === 0 ? (
-                    <span onClick={addTicket}>ADD</span>
+                <div  >{ticketCount === 0 ? (
+                        <button className="bg-black rounded-md text-white px-6 py-[7px] text-md font-semibold w-25" onClick={addTicket}>ADD</button>
                 ): (
-                    <div className="bg-black rounded-md flex items-center justify-around w-20">
+                    <button className="bg-black rounded-md flex items-center justify-around  px-1 gap-2 w-25 py-[5px] text-white text-xl px-1">
                         <Minus color="white" onClick={removeTicket} size={20} ></Minus>
-                        <span className="text-white text-xl">{ticketCount}</span>
-                        <Plus color="white" onClick={addTicket}></Plus>
-                    </div>
+                        {ticketCount}
+                        <Plus color="white" onClick={addTicket} size={20}></Plus>
+                    </button>
                 )
-            }</button>
-            </div>
+            }</div>
+        </div>
+        </div>
 
-                <button className="border px-4 py-2 mt-5">
-                    Continue to Payment
-                </button>
-            </div>
-        </>
+                    {ticketCount > 0 && (
+
+                            <div className="border border-top-2 border-gray-200 w-full mt-auto font-semibold text-xl flex flex-row items-center justify-center gap-60 py-7">
+                            <div className="flex flex-col  justify-start">
+                                    <p className="text-xl">₹{totalPrice}</p>
+                                    <p className="text-[18px] font-fine text-gray-500">{ticketCount} tickets</p>
+                            </div>
+                            <button className="border px-3 py-2 bg-black text-white rounded-md text-">ADD TO CART</button>
+                            </div>
+
+                        )
+                    }
+    </div>
+
     );
 }
