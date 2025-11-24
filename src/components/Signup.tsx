@@ -20,7 +20,8 @@ function Signup() {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         try {
-            const data = await register(firstName, lastName, email, password, role);
+            const payload = { firstName: firstName, lastName:lastName, email: email, password: password, role: role};
+            const data = await register(payload)
             if (data.token) {
                 login(data.user, data.token);
                 localStorage.setItem("token", data.token)
@@ -89,7 +90,7 @@ function Signup() {
                     </select>
 
                     <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300">
-                        Signup
+                        Sign Up
                     </button>
                 </form>
 
@@ -108,14 +109,3 @@ function Signup() {
 }
 
 export default Signup;
-/*
-{
-    "firstName": "Jaikishan",
-    "lastName": "Kumar",
-    "email": "jaiky4u@example.com",
-    "password": "Test@1234",
-    "role": "attendee",
-    "isActive": "",
-    "isAdmin": "false"
-}
-*/

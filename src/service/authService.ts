@@ -8,10 +8,11 @@ export function login(email: string, password: string) {
 }
 
 
-export function register(firstName: string, lastName: string, email: string, password: string, role: string) {
+export function register(data: { firstName: string, lastName: string, email: string, password: string, role: string }) {
+    console.log("XXXXXXXXXXXXXXXXXXXXXXX", data.firstName)
     return apiFetch('/auth/register', {
         method: 'POST',
-        body: JSON.stringify({ firstName, lastName, email, password, role })
+        body: JSON.stringify(data)
     })
 }
 
