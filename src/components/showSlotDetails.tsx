@@ -41,9 +41,15 @@ export function ShowSlotDetails() {
     return (
     <div className="min-h-screen flex flex-col">
     <div className="header flex flex-col items-center justify-between rounded-md">
-            <div className="flex flex-col justify-between items-center shadow-lg w-full py-5">
+            <div className="header-container flex flex-row w-full justify-around shadow-lg">
+
+            <div className="flex flex-col justify-between items-center w-[60%] py-5 border-1">
                     <p className="uppercase text-xl font-semibold ">{data?.event.title || "Slot Details"}</p>
                     <p className="text-gray-500 font-semibold text-md">{`${date} ${time}`}</p>
+            </div>
+            <div className="cart-count relative text-4xl flex justify-center items-center">🛒
+                    <span className="absolute top-5 -right-1 bg-blue-500 w-5 h-5 rounded-full flex items-center justify-center text-lg p-1 text-white">{}</span>
+            </div>
             </div>
 
             
