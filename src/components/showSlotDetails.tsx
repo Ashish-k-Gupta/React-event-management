@@ -4,6 +4,7 @@ import { showSlotDetailsRoute } from "../router";
 import { useQuery } from "@tanstack/react-query";
 import { getSlotById } from "../service/eventService";
 import { Minus, Plus } from "lucide-react";
+import { FormatDate } from "../utils/dateUtils";
 
 export function ShowSlotDetails() {
     const {slotId} = useParams({from: showSlotDetailsRoute.id})
@@ -32,6 +33,8 @@ export function ShowSlotDetails() {
         console.log("PRICE:", ticketPrice,"Ticket-Count:", ticketCount);
         return setTotalPrice(totalPrice);
     }
+    const eventDateAndTime = new Date(data?.start_date)
+    const {date, time} = FormatDate(eventDateAndTime);
 
     if (isLoading) return <div>Loading...</div>;
     if (!data) return <div>No slot found.</div>;
@@ -40,7 +43,7 @@ export function ShowSlotDetails() {
     <div className="header flex flex-col items-center justify-between rounded-md">
             <div className="flex flex-col justify-between items-center shadow-lg w-full py-5">
                     <p className="uppercase text-xl font-semibold ">{data?.event.title || "Slot Details"}</p>
-                    <p className="text-gray-500 font-semibold text-md">{data.start_date}</p>
+                    <p className="text-gray-500 font-semibold text-md">{`${date} ${time}`}</p>
             </div>
 
             
@@ -70,7 +73,7 @@ export function ShowSlotDetails() {
                                     <p className="text-xl">₹{totalPrice}</p>
                                     <p className="text-[18px] font-fine text-gray-500">{ticketCount} tickets</p>
                             </div>
-                            <button className="border px-3 py-2 bg-black text-white rounded-md text-">ADD TO CART</button>
+                            <button className="border px-2 py-1 bg-black text-white rounded-md text-[18px]">ADD TO CART</button>
                             </div>
 
                         )

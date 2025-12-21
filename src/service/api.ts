@@ -15,7 +15,6 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
     });
 
 
-
     if (!response.ok) {
         const errorResponse = await response.json();
         const errorMessage = errorResponse?.details?.[0]?.message || errorResponse.message || 'An error occurred'
