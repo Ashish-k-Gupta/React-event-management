@@ -36,9 +36,11 @@ const appLayoutRoute = createRoute({
     getParentRoute: () => rootRoute,
     id: "app-layout",
     component: () => (
-        <div>
+        <div className="h-full flex flex-col overflow-hidden">
             <Header />
+            <main className="flex-1 overflow-hidden">
             <Outlet />
+            </main>
             {/* <RandomImageGallery /> */}
         </div>
     )

@@ -11,12 +11,9 @@ function Header() {
 
     return (
         <header className="w-full bg-gray-800 text-white shadow-md">
-            {/* AppBar */}
             <nav className="flex justify-between items-center px-6 py-3">
-                {/* Logo */}
                 <h1 className="text-2xl font-semibold tracking-wide">MyApp</h1>
 
-                {/* Desktop Menu */}
                 <div className="hidden md:flex items-center gap-6">
                     <Link
                         to="/"
