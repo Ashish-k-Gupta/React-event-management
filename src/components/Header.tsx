@@ -3,7 +3,7 @@ import { Menu, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { logout } from "../service/authService";
 import { useAuth } from "../context/authContext";
-import Profile from "./Profile";
+import Profile from "../features/user/pages/Profile";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false);

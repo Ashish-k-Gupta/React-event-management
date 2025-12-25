@@ -1,7 +1,7 @@
-import { getEvents } from "../service/eventService";
+import { getEvents } from "../../../service/eventService";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { eventDetailRoute } from "../router";
+import { eventDetailRoute } from "../../../router";
 
 function EventList() {
     const { isPending, error, data } = useQuery({

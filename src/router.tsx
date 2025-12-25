@@ -5,13 +5,12 @@ import {
     Router,
     redirect
 } from "@tanstack/react-router";
-import EventList from "./components/EventList";
-import EventDetail from "./components/EventDetail";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import EventList from "./features/events/pages/EventList";
+import EventDetail from "./features/events/pages/EventDetail";
+import Login from "./features/auth/pages/Login";
+import Signup from "./features/auth/pages/Signup";
 import Header from "./components/Header";
 import App from "./App";
-// import RandomImageGallery from "./components/RandomImageGallery";
 import { BookTicketDetail } from "./components/bookTicketDetail";
 import { ShowSlotDetails } from "./components/showSlotDetails";
 // import { TicketCard } from "./cards/TicketCard";

@@ -5,11 +5,22 @@ import { useQuery } from "@tanstack/react-query";
 import { getSlotById } from "../service/eventService";
 import { Minus, Plus } from "lucide-react";
 import { FormatDate } from "../utils/dateUtils";
+import { useAddToCart, useCart } from "../hooks/useCart";
 
 export function ShowSlotDetails() {
     const { slotId } = useParams({ from: showSlotDetailsRoute.id })
     const [ticketCount, setTicketCount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
+    const { data: cartData } = useCart();
+
+    const {mutate, isPending} = useAddToCart()
+    const handleAddToCart = () => {
+        mutate({
+            eventSlotId: slotId,
+            numberOfTickets: ticketCount,
+        })
+    }
+
     const { data, isLoading } = useQuery({
         queryKey: ["slot", slotId],
         queryFn: () => getSlotById(slotId)
@@ -55,10 +66,10 @@ export function ShowSlotDetails() {
                     </div>
 
                     <div className="flex-1 flex justify-end pr-6">
-                        <div className="cart-count relative text-xl flex items-center">
+                        <div className="cart-count relative text-3xl flex items-center">
                             🛒
-                            <span className="absolute -top-1 -right-2 bg-blue-500 w-3 h-3 p-2 rounded-full flex items-center justify-center text-xs text-white">
-                                0
+                            <span className="absolute -top-1 -right-2 bg-black w-5 h-5 p-1 rounded-full flex items-center justify-center text-base text-white font-semibold">
+                                {cartData?.totalQuantity || 0}
                             </span>
                         </div>
                     </div>
@@ -94,8 +105,11 @@ export function ShowSlotDetails() {
                             <p className="text-sm text-gray-500">{ticketCount} tickets</p>
                         </div>
 
-                        <button className="bg-black text-white px-4 py-2 rounded-md">
-                            ADD TO CART
+                        <button className="bg-black text-white px-4 py-2 rounded-md"
+                        onClick={handleAddToCart}
+                        disabled={isPending || ticketCount === 0}
+                        >
+                            {isPending ? "Adding..." : "ADD TO CART"}
                         </button>
                     </div>
                 </div>

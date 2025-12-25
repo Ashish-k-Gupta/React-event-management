@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { register } from "../service/authService";
-import { useAuth } from "../context/authContext";
-import { useError } from "../hooks/useError";
+import { register } from "../../../service/authService";
+import { useAuth } from "../../../context/authContext";
+import { useError } from "../../../hooks/useError";
 import { useNavigate } from "@tanstack/react-router";
 function Signup() {
     const navigate = useNavigate()

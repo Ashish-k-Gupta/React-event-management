@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { getEventById } from "../service/eventService";
+import { getEventById } from "../../../service/eventService";
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { eventDetailRoute } from "../router";
+import { eventDetailRoute } from "../../../router";
 import { Tag, User, Languages, MapPinned } from "lucide-react";
-import { TicketCard } from "../cards/TicketCard";
+import { TicketCard } from "../../../cards/TicketCard";
 
 function EventDetail() {
     const { eventId } = useParams({ from: eventDetailRoute.id });

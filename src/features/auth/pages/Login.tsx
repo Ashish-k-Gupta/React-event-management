@@ -1,7 +1,7 @@
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../../../context/authContext";
 import { Eye, EyeOff } from "lucide-react";
-import { useError } from "../hooks/useError";
-import { login as loginService } from "../service/authService";
+import { useError } from "../../../hooks/useError";
+import { login as loginService } from "../../../service/authService";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

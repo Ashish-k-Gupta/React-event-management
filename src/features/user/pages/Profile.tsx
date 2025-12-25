@@ -1,5 +1,5 @@
 import { UserCircle, Lock, LogOut } from "lucide-react";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
