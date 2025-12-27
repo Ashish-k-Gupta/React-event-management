@@ -1,11 +1,11 @@
-import { useParams } from "@tanstack/react-router";
+import { Link,  useParams } from "@tanstack/react-router";
 import { useState } from "react"
 import { showSlotDetailsRoute } from "../router";
-import { useQuery } from "@tanstack/react-query";
 import { getSlotById } from "../service/eventService";
-import { Minus, Plus } from "lucide-react";
+import { Loader2, Minus, Plus } from "lucide-react";
 import { FormatDate } from "../utils/dateUtils";
 import { useAddToCart, useCart } from "../hooks/useCart";
+import { useQuery } from "@tanstack/react-query";
 
 export function ShowSlotDetails() {
     const { slotId } = useParams({ from: showSlotDetailsRoute.id })
@@ -19,6 +19,7 @@ export function ShowSlotDetails() {
             eventSlotId: slotId,
             numberOfTickets: ticketCount,
         })
+        
     }
 
     const { data, isLoading } = useQuery({
@@ -66,11 +67,14 @@ export function ShowSlotDetails() {
                     </div>
 
                     <div className="flex-1 flex justify-end pr-6">
-                        <div className="cart-count relative text-3xl flex items-center">
+                        <div 
+                        className="cart-count relative text-3xl flex items-center cursor-pointer">
+                            <Link to="/cart">
                             🛒
                             <span className="absolute -top-1 -right-2 bg-black w-5 h-5 p-1 rounded-full flex items-center justify-center text-base text-white font-semibold">
                                 {cartData?.totalQuantity || 0}
                             </span>
+                            </Link>
                         </div>
                     </div>
 
@@ -84,7 +88,7 @@ export function ShowSlotDetails() {
                     </div>
 
                     <div  >{ticketCount === 0 ? (
-                        <button className="bg-black rounded-md text-white px-6 py-[7px] text-md font-semibold w-25" onClick={addTicket}>ADD</button>
+                        <button className="bg-black rounded-md text-white px-6 py-[7px] text-md font-semibold w-25 cursor-pointer" onClick={addTicket}>ADD</button>
                     ) : (
                         <button className="bg-black rounded-md flex items-center justify-around  px-1 gap-2 w-25 py-[5px] text-white text-xl px-1">
                             <Minus color="white" onClick={removeTicket} size={20} ></Minus>
@@ -105,11 +109,16 @@ export function ShowSlotDetails() {
                             <p className="text-sm text-gray-500">{ticketCount} tickets</p>
                         </div>
 
-                        <button className="bg-black text-white px-4 py-2 rounded-md"
+                        <button className="bg-black text-white px-4 py-2 rounded-md cursor-pointer"
                         onClick={handleAddToCart}
-                        disabled={isPending || ticketCount === 0}
-                        >
-                            {isPending ? "Adding..." : "ADD TO CART"}
+                        disabled={isPending}>
+                            {isPending ? (
+                                <>
+                                <Loader2 className="animate-spin" size={18}/>
+                                </>
+                            ):
+                            "ADD TO CART"
+                            }
                         </button>
                     </div>
                 </div>

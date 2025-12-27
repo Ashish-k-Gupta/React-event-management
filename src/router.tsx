@@ -13,6 +13,7 @@ import Header from "./components/Header";
 import App from "./App";
 import { BookTicketDetail } from "./components/bookTicketDetail";
 import { ShowSlotDetails } from "./components/showSlotDetails";
+import { CartList } from "./features/cart/cartList";
 // import { TicketCard } from "./cards/TicketCard";
 
 // Define the auth context type
@@ -118,10 +119,16 @@ export const showSlotDetailsRoute = createRoute({
     component: ShowSlotDetails
 })
 
+export const cartDetailsRoute = createRoute({
+    getParentRoute: () => protectedRoute,
+    path: "/cart",
+    component: CartList
+})
+
 const routeTree = rootRoute.addChildren([
     appLayoutRoute.addChildren([
         homeRoute,
-        protectedRoute.addChildren([eventsRoute, eventDetailRoute, bookTicketRoute, showSlotDetailsRoute])
+        protectedRoute.addChildren([eventsRoute, eventDetailRoute, bookTicketRoute, showSlotDetailsRoute, cartDetailsRoute])
     ]),
     authLayoutRoute.addChildren([loginRoute, signupRoute]),
 ])

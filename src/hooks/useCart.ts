@@ -1,14 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addToCartApi, getCartDetails } from "../service/cartService";
+import { useNavigate } from "@tanstack/react-router";
 
 export function useAddToCart() {
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     return useMutation({
         mutationFn: addToCartApi,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["cart"] })
-            alert('Successfully added to cart!')
+            queryClient.invalidateQueries({ queryKey: ["cart"] });
+            navigate({ to: "/cart" });
         },
         onError: (error) => {
             alert(error.message)
